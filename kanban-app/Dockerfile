@@ -1,12 +1,11 @@
-FROM maven:3.6.1-jdk-8-slim AS build
-RUN mkdir -p /workspace
-WORKDIR /workspace
-COPY pom.xml /workspace
-COPY src /workspace/src
-RUN mvn -f pom.xml clean package
+FROM maven:3.8-openjdk-11 as build
+WORKDIR /app
+COPY . .
+RUN mvn install
 
 FROM openjdk:8-jre-alpine
-COPY --from=build /workspace/target/*.jar app.jar
+WORKDIR /app
+COPY --from=build /app/target/kanban-app-*.jar /app/app.jar
 EXPOSE 8080
 ENTRYPOINT ["sh", "-c"]
 CMD ["java -jar app.jar"]
