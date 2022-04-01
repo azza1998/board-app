@@ -6,6 +6,7 @@ COPY src /workspace/src
 RUN mvn -f pom.xml clean package
 
 FROM openjdk:8-alpine
-COPY --from=build /workspace/target/*.jar /app.jar
+COPY --from=build /workspace/target/*.jar /workspace/app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["sh", "-c"]
+CMD ["java -jar app.jar"]
