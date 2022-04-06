@@ -14,7 +14,7 @@ RUN npm run build
 ### STAGE 2: Run ###
 FROM nginx:1.17.1-alpine
 #### copy nginx conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
 #### copy artifact build from the 'build environment'
 COPY --from=build /usr/src/app/dist/kanban-ui /usr/share/nginx/html
 EXPOSE 8080:8080
