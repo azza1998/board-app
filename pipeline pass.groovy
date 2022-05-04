@@ -1,7 +1,6 @@
 pipeline{
   agent{
-    label "master"
-  }
+    label "master" }
  stages {
             stage("Clone Source") {
               steps {
@@ -9,26 +8,20 @@ pipeline{
                 git url: "https://github.com/azza1998/Notes-apps.git", branch: "main"
               }
             }
-            stage("create app"){
+            stage ("sonarqube analysis"){
                 steps{
-                
-                    sh "oc apply -f openshift-specifications/ -n note-app"
-                    sh "oc apply -f openshift-specifications/with-dockerfile -n note-app"
-                    }
-                }
-            stage ("build & deploy"){
-                steps{
-                openshiftBuild(bldCfg: 'notes-app', showBuildLogs: 'true', namespace: 'note-app')
-
-            }}
-            stage ("verify deploy"){
-                steps{
-                openshiftVerifyDeployment(namespace: 'note-app', depCfg: 'notes-app', replicaCount:'1', verifyReplicaCount: 'true', waitTime: '180000')
-
-            }}
-            
+                    def sonarHome =  tool 'SQ'
+                    sonarIP = getIP('sonarqube.sonarqube.svc.cluster.local.')
+                    sh "${sonarHome}/bin/sonar-scanner -Dsonar.projectKey=Notes-app -Dsonar.projectName=Notes-app -Dsonar.host.url=http://${sonarIP}:9000 -Dsonar.login=admin -Dsonar.password=azza"
     
     
-}
+     }}}
+     // Get A Service Cluster IP
+     def getIP(String lookup){
+    sh "getent hosts ${lookup} | cut -f 1 -d \" \" > ipaddress"
+    ipaddress = readFile 'ipaddress'
+    ipaddress = ipaddress.trim()
+    sh 'rm ipaddress'
+    return ipaddress
     
 }
