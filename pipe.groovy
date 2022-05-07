@@ -1,4 +1,4 @@
-def version, mvnCmd = "mvn -s cicd-settings-nexus3.xml"
+def version, mvnCmd = "mvn -s nexus.xml"
 pipeline{
   agent{
     label "master"
