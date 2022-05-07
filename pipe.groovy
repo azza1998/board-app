@@ -8,6 +8,10 @@ pipeline{
               steps {
              
                 git url: "https://github.com/azza1998/Notes-apps.git", branch: "main"
+                script {
+                  def pom = readMavenPom file: 'pom.xml'
+                  version = pom.version
+              }
               }
             }
             stage("Archive App") {
