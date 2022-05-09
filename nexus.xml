@@ -40,7 +40,9 @@
   // or docker.build, etc.
   sh "docker pull --all-tags ${myImg.imageName()}"
   // runs: docker pull --all-tags docker.mycorp.com/myImg
+       
 }
+        docker-registry.default.svc:5000/note/notes-app
         <pluginRepository>
           <id>central</id>
           <url>http://central</url>
