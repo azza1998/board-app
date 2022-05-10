@@ -69,3 +69,4 @@
         env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
 docker login -u admin -p $(oc whoami -t) docker-registry.default.svc:5000
+withEnv(["PATH=${tool 'docker'}/bin:${env.PATH}"]) {
