@@ -35,6 +35,8 @@
      <pluginRepositories>
        
        
+       
+       
     docker.withRegistry('https://docker.mycorp.com/') {
   def myImg = docker.image('myImg')
   // or docker.build, etc.
@@ -66,3 +68,4 @@
         def dockerHome = tool 'docker'
         env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
+docker login -u admin -p $(oc whoami -t) docker-registry.default.svc:5000
