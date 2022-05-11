@@ -64,11 +64,8 @@
 </settings>
 
 
- stage('Initialize'){
-        def dockerHome = tool 'docker'
-        env.PATH = "${dockerHome}/bin:${env.PATH}"
-    }
-docker login -u admin -p $(oc whoami -t) docker-registry.default.svc:5000
+
+docker login -u admin -p $(oc whoami -t) 172.30.238.231:5000
 withEnv(["PATH=${tool 'docker'}/bin:${env.PATH}"]) {
 
 
