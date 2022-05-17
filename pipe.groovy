@@ -13,7 +13,7 @@ pipeline{
                 steps{
                     def sonarHome =  tool 'SQ';
                     sonarIP = getIP('sonarqube.sonarqube.svc.cluster.local.')
-                    sh "${sonarHome}/bin/sonar-scanner -Dsonar.projectKey=Notes-app -Dsonar.projectName=Notes-app -Dsonar.host.url=http://${sonarIP}:9000 -Dsonar.login=admin -Dsonar.password=azza"
+                    sh "${sonarHome}/bin/sonar-scanner -Dsonar.projectKey=notes-app -Dsonar.projectName=notes-app -Dsonar.host.url=http://${sonarIP}:9000 -Dsonar.login=admin -Dsonar.password=azza"
                     }}
             stage("Create App"){
                 steps{
@@ -36,5 +36,14 @@ pipeline{
     
     
 }
+    
+}
+// Get A Service Cluster IP
+     def getIP(String lookup){
+    sh "getent hosts ${lookup} | cut -f 1 -d \" \" > ipaddress"
+    ipaddress = readFile 'ipaddress'
+    ipaddress = ipaddress.trim()
+    sh 'rm ipaddress'
+    return ipaddress
     
 }
