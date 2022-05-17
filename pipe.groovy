@@ -11,10 +11,11 @@ pipeline{
             }
             stage ("Sonarqube Analysis"){
                 steps{
+                  script{
                     def sonarHome =  tool 'SQ';
                     sonarIP = getIP('sonarqube.sonarqube.svc.cluster.local.')
                     sh "${sonarHome}/bin/sonar-scanner -Dsonar.projectKey=notes-app -Dsonar.projectName=notes-app -Dsonar.host.url=http://${sonarIP}:9000 -Dsonar.login=admin -Dsonar.password=azza"
-                    }}
+                  }}}
             stage("Create App"){
                 steps{
                 
